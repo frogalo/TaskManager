@@ -1,7 +1,7 @@
 package com.frogalo.taskmanager.service;
 
 import com.frogalo.taskmanager.entity.Project;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.frogalo.taskmanager.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +9,11 @@ import java.util.List;
 @Service
 public class ProjectService {
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
+
+    public ProjectService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 
     // metoda zwracająca wszystkie projekty
     public List<Project> getAllProjects() {

@@ -14,7 +14,7 @@ public interface ProjectRepository extends MongoRepository<Project, String> {
     public Project getById(String id);
 
     // znajdź projekty po nazwie
-    public List<Project> findByTitle(String title);
+    public List<Project> findByName(String title);
 
     // znajdź projekty po dacie rozpoczęcia
     public List<Project> findByStartDate(Date startDate);
