@@ -24,6 +24,10 @@ public class Comment {
         this.task = task;
     }
 
+    public Comment() {
+
+    }
+
     public String getId() {
         return id;
     }

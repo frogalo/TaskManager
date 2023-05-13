@@ -39,6 +39,10 @@ public class Task {
         this.comments = comments;
     }
 
+    public Task() {
+
+    }
+
     public String getId() {
         return id;
     }

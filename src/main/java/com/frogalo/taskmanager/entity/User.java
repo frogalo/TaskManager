@@ -26,6 +26,10 @@ public class User {
         this.tasks = tasks;
     }
 
+    public User() {
+
+    }
+
     public String getId() {
         return id;
     }
