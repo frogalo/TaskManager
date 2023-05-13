@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.config.Task;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -22,16 +23,24 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @PostConstruct
-    public void init() {
-        Project project = new Project("Project 1", "Description 1", new Date(), new Date());
-        projectService.addProject(project);
-    }
+//    @PostConstruct
+//    public void init() {
+//        Project project = new Project("Project 1", "Description 1", new Date(), new Date());
+//        projectService.addProject(project);
+//    }
+
+//    @GetMapping
+//    List<Project> getProjects(Model model) {
+//        List<Project> projects = projectService.getAllProjects();
+//        model.addAttribute("projects", projects);
+//        return projects;
+//    }
 
     // metoda zwracająca wszystkie projekty
     @GetMapping
-    public ResponseEntity<List<Project>> getAllProjects() {
+    public ResponseEntity<List<Project>> getAllProjects(Model model) {
         List<Project> projects = projectService.getAllProjects();
+        model.addAttribute("projects", projects);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
