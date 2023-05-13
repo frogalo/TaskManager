@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -38,11 +36,18 @@ public class ProjectController {
 
     // metoda zwracająca wszystkie projekty
     @GetMapping
-    public ResponseEntity<List<Project>> getAllProjects(Model model) {
+    public ResponseEntity<List<Project>> getAllProjects() {
         List<Project> projects = projectService.getAllProjects();
-        model.addAttribute("projects", projects);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
+
+//    @GetMapping("index")
+//    public String getAllProjects(Model model) {
+//        List<Project> projects = projectService.getAllProjects();
+//        model.addAttribute("TEST", "TEST");
+//        model.addAttribute("projects", projects);
+//        return "projects";
+//    }
 
     // metoda zwracająca projekt o podanym ID
     @GetMapping("/{id}")
