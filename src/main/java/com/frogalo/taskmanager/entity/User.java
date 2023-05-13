@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "users")
@@ -16,6 +18,7 @@ public class User {
     private String email;
     private String role;
     @DBRef
+    @ManyToMany(mappedBy = "users")
     private List<Task> tasks;
 
     public User(String firstName, String lastName, String email, String role, List<Task> tasks) {
@@ -28,6 +31,18 @@ public class User {
 
     public User() {
 
+    }
+
+    public void addTask(Task task) {
+        if (this.tasks == null) {
+            this.tasks = new ArrayList<>();
+        }
+        if (!tasks.contains(task)) {
+            this.tasks.add(task);
+            task.addUser(this);
+        } else {
+            System.err.println("This user already has this task");
+        }
     }
 
     public String getId() {
@@ -78,6 +93,16 @@ public class User {
         this.tasks = tasks;
     }
 
-    // getters and setters
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", tasks=" + tasks +
+                '}';
+    }
 }
 

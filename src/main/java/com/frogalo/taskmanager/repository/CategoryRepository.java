@@ -11,4 +11,6 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
 
     // Additional method
     List<Category> findByName(String name);
+
+
 }

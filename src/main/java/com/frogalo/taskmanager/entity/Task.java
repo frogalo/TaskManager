@@ -5,6 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.ManyToMany;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +23,8 @@ public class Task {
     @DBRef
     private Project project;
     @DBRef
-    private List<User> users;
+    @ManyToMany(mappedBy = "tasks")
+    private List<User> users = new ArrayList<>();
     @DBRef
     private Category category;
     @DBRef
@@ -124,4 +128,30 @@ public class Task {
     }
 
 
+    public void addUser(User user) {
+        if (this.users == null) {
+            this.users = new ArrayList<>();
+        }
+        if (!this.users.contains(user)) {
+            this.users.add(user);
+            user.addTask(this);
+        } else
+            System.err.println("This user already has this task");
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", status='" + status + '\'' +
+                ", project=" + project +
+                ", users=" + users +
+                ", category=" + category +
+                ", comments=" + comments +
+                '}';
+    }
 }

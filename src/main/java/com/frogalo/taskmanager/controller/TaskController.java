@@ -1,7 +1,9 @@
 package com.frogalo.taskmanager.controller;
 
 import com.frogalo.taskmanager.entity.Task;
+import com.frogalo.taskmanager.service.TaskAlreadyAssignedException;
 import com.frogalo.taskmanager.service.TaskService;
+import com.frogalo.taskmanager.service.UserAlreadyAssignedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,11 @@ public class TaskController {
     public ResponseEntity<Task> updateTask(@PathVariable String id, @RequestBody Task task) {
         Task updatedTask = taskService.updateTask(id, task);
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+    }
+
+    @PostMapping("/{taskId}/users/{userId}")
+    public Task addUserToTask(@PathVariable String taskId, @PathVariable String userId) throws TaskAlreadyAssignedException, UserAlreadyAssignedException {
+        return taskService.addUserToTask(taskId, userId);
     }
 }
 
