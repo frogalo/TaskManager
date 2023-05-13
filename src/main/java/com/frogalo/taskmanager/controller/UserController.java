@@ -57,9 +57,5 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{userId}/tasks/{taskId}")
-    public User addTaskToUser(@PathVariable String userId, @PathVariable String taskId) {
-        return userService.addTaskToUser(userId, taskId);
-    }
 
 }
