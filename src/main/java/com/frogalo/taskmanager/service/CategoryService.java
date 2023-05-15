@@ -1,6 +1,6 @@
 package com.frogalo.taskmanager.service;
 
-import com.frogalo.taskmanager.entity.Category;
+import com.frogalo.taskmanager.entity.category.Category;
 import com.frogalo.taskmanager.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 

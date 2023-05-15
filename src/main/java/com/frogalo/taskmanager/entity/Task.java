@@ -1,15 +1,17 @@
 package com.frogalo.taskmanager.entity;
 
 
+import com.frogalo.taskmanager.entity.category.Category;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Document(collection = "tasks")
 public class Task {
@@ -23,15 +25,19 @@ public class Task {
     @DBRef
     private Project project;
     @DBRef
-    @ManyToMany(mappedBy = "tasks")
-    private List<User> users = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_task",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
+
     @DBRef
     private Category category;
     @DBRef
     private List<Comment> comments;
 
     public Task(String name, String description, Date startDate, Date endDate, String status,
-                Project project, List<User> users, Category category, List<Comment> comments) {
+                Project project, Set<User> users, Category category, List<Comment> comments) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -103,14 +109,6 @@ public class Task {
         this.project = project;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -127,10 +125,17 @@ public class Task {
         this.comments = comments;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public void addUser(User user) {
         if (this.users == null) {
-            this.users = new ArrayList<>();
+            this.users = new HashSet<>();
         }
         if (!this.users.contains(user)) {
             this.users.add(user);
@@ -141,17 +146,25 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status='" + status + '\'' +
-                ", project=" + project +
-                ", users=" + users +
-                ", category=" + category +
-                ", comments=" + comments +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Task{id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", startDate=").append(startDate);
+        sb.append(", endDate=").append(endDate);
+        sb.append(", status='").append(status).append('\'');
+        sb.append(", project=").append(project);
+        sb.append(", users=[");
+        for (User user : users) {
+            sb.append(user.getId()).append(", ");
+        }
+        if (!users.isEmpty()) {
+            sb.delete(sb.length() - 2, sb.length()); // remove the last comma and space
+        }
+        sb.append("]");
+        sb.append(", category=").append(category);
+        sb.append(", comments=").append(comments);
+        sb.append('}');
+        return sb.toString();
     }
 }

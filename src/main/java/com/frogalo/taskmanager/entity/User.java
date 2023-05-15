@@ -5,9 +5,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Document(collection = "users")
 public class User {
@@ -18,10 +23,14 @@ public class User {
     private String email;
     private String role;
     @DBRef
-    @ManyToMany(mappedBy = "users")
-    private List<Task> tasks;
+//    @ManyToMany(mappedBy = "users")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_task",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
+    private Set<Task> tasks = new HashSet<>();
 
-    public User(String firstName, String lastName, String email, String role, List<Task> tasks) {
+    public User(String firstName, String lastName, String email, String role, Set<Task> tasks) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -35,7 +44,7 @@ public class User {
 
     public void addTask(Task task) {
         if (this.tasks == null) {
-            this.tasks = new ArrayList<>();
+            this.tasks = new HashSet<>();
         }
         if (!tasks.contains(task)) {
             this.tasks.add(task);
@@ -85,24 +94,32 @@ public class User {
         this.role = role;
     }
 
-    public List<Task> getTasks() {
+    public Set<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
+    public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                ", tasks=" + tasks +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("User{id='").append(id).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", role='").append(role).append('\'');
+        sb.append(", tasks=[");
+        for (Task task : tasks) {
+            sb.append(task.getId()).append(", ");
+        }
+        if (!tasks.isEmpty()) {
+            sb.delete(sb.length() - 2, sb.length()); // remove the last comma and space
+        }
+        sb.append("]}");
+        return sb.toString();
     }
+
 }
 

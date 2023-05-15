@@ -1,5 +1,6 @@
 package com.frogalo.taskmanager.controller;
 
+import com.frogalo.taskmanager.entity.Task;
 import com.frogalo.taskmanager.entity.User;
 import com.frogalo.taskmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,12 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{userId}/tasks/{taskId}")
+    public ResponseEntity<String> addTaskToUser(@PathVariable String userId, @PathVariable String taskId) {
+        String message = userService.addTask(userId, taskId);
+        return ResponseEntity.ok(message);
     }
 
 

@@ -1,4 +1,4 @@
-package com.frogalo.taskmanager.entity;
+package com.frogalo.taskmanager.entity.category;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
