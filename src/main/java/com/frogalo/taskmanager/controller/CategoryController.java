@@ -1,6 +1,6 @@
 package com.frogalo.taskmanager.controller;
 
-import com.frogalo.taskmanager.entity.category.Category;
+import com.frogalo.taskmanager.entity.Category;
 import com.frogalo.taskmanager.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

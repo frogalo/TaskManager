@@ -1,6 +1,6 @@
 package com.frogalo.taskmanager.repository;
 
-import com.frogalo.taskmanager.entity.category.Category;
+import com.frogalo.taskmanager.entity.Category;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
