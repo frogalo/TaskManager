@@ -1,6 +1,8 @@
 package com.frogalo.taskmanager.controller;
 
 import com.frogalo.taskmanager.entity.Comment;
+import com.frogalo.taskmanager.entity.IssueComment;
+import com.frogalo.taskmanager.entity.UpdateComment;
 import com.frogalo.taskmanager.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,8 +30,14 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Comment> addComment(@RequestBody Comment comment) {
+    @PostMapping("/issue")
+    public ResponseEntity<Comment> addIssueComment(@RequestBody IssueComment comment) {
+        Comment newComment = commentService.addComment(comment);
+        return new ResponseEntity<>(newComment, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Comment> addUpdateComment(@RequestBody UpdateComment comment) {
         Comment newComment = commentService.addComment(comment);
         return new ResponseEntity<>(newComment, HttpStatus.CREATED);
     }
@@ -45,5 +53,4 @@ public class CommentController {
         Comment updatedComment = commentService.updateComment(id, comment);
         return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
-
 }

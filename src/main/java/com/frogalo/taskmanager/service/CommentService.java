@@ -1,6 +1,8 @@
 package com.frogalo.taskmanager.service;
 
 import com.frogalo.taskmanager.entity.Comment;
+import com.frogalo.taskmanager.entity.IssueComment;
+import com.frogalo.taskmanager.entity.UpdateComment;
 import com.frogalo.taskmanager.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,11 @@ public class CommentService {
 
     // method to add a new comment
     public Comment addComment(Comment comment) {
-        return commentRepository.save(comment);
+        if (comment instanceof IssueComment || comment instanceof UpdateComment) {
+            return commentRepository.save(comment);
+        } else {
+            throw new IllegalArgumentException("Invalid comment type");
+        }
     }
 
     // method to delete a comment by its ID

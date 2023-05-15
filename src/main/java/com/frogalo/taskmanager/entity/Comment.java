@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Document(collection = "comments")
-public class Comment {
+public abstract class Comment {
     @Id
     private String id;
     private String content;
@@ -16,12 +16,16 @@ public class Comment {
     private User user;
     @DBRef
     private Task task;
+    private String issueCommentId;
+    private String updateCommentId;
 
-    public Comment(String content, Date createdAt, User user, Task task) {
+    public Comment(String content, Date createdAt, User user, Task task, String issueCommentId, String updateCommentId) {
         this.content = content;
         this.createdAt = createdAt;
         this.user = user;
         this.task = task;
+        setIssueCommentId(issueCommentId);
+        setUpdateCommentId(updateCommentId);
     }
 
     public Comment() {
@@ -68,6 +72,28 @@ public class Comment {
         this.task = task;
     }
 
-    // getters and setters
+    public String getIssueCommentId() {
+        return issueCommentId;
+    }
+
+    public void setIssueCommentId(String issueCommentId) {
+        if (updateCommentId == null) {
+            this.issueCommentId = issueCommentId;
+        } else {
+            throw new IllegalStateException("Cannot set IssueCommentId when UpdateCommentId is already set.");
+        }
+    }
+
+    public String getUpdateCommentId() {
+        return updateCommentId;
+    }
+
+    public void setUpdateCommentId(String updateCommentId) {
+        if (issueCommentId == null) {
+            this.updateCommentId = updateCommentId;
+        } else {
+            throw new IllegalStateException("Cannot set UpdateCommentId when IssueCommentId is already set.");
+        }
+    }
 }
 
