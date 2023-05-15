@@ -33,6 +33,7 @@ public class Task {
     @DBRef
     private Category category;
     @DBRef
+    //todo: one to many
     private List<Comment> comments;
 
     public Task(String name, String description, Date startDate, Date endDate, String status,
@@ -45,8 +46,10 @@ public class Task {
         this.project = project;
         this.users = users;
         this.category = category;
-        this.comments = comments;
+        this.comments = new ArrayList<>();
     }
+
+
 
     public Task() {
 
