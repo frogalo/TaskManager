@@ -1,9 +1,13 @@
 package com.frogalo.taskmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Document(collection = "comments")
@@ -12,9 +16,11 @@ public abstract class Comment {
     private String id;
     private String content;
     private Date createdAt;
-    @DBRef
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
-    @DBRef
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
     private Task task;
     private String issueCommentId;
     private String updateCommentId;

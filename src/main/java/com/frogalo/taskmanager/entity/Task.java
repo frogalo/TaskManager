@@ -5,10 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import java.util.*;
 
@@ -33,8 +30,8 @@ public class Task {
     @DBRef
     private Category category;
     @DBRef
-    //todo: one to many
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public Task(String name, String description, Date startDate, Date endDate, String status,
                 Project project, Set<User> users, Category category, List<Comment> comments) {
@@ -48,7 +45,6 @@ public class Task {
         this.category = category;
         this.comments = new ArrayList<>();
     }
-
 
 
     public Task() {
