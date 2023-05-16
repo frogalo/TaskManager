@@ -1,25 +1,25 @@
 package com.frogalo.taskmanager.service;
 
-import com.frogalo.taskmanager.entity.Comment;
-import com.frogalo.taskmanager.entity.IssueComment;
-import com.frogalo.taskmanager.entity.Task;
-import com.frogalo.taskmanager.entity.UpdateComment;
+import com.frogalo.taskmanager.entity.*;
 import com.frogalo.taskmanager.repository.CommentRepository;
 import com.frogalo.taskmanager.repository.TaskRepository;
+import com.frogalo.taskmanager.repository.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
-
-    public CommentService(CommentRepository commentRepository, TaskRepository taskRepository) {
+    public CommentService(CommentRepository commentRepository, UserRepository userRepository, TaskRepository taskRepository) {
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
         this.taskRepository = taskRepository;
     }
 
@@ -29,33 +29,39 @@ public class CommentService {
     }
 
     // method to return a comment by its ID
-    public Comment getCommentById(String id) {
-        return commentRepository.getById(id);
-    }
+    public Comment addComment(Comment comment, String userId, String taskId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<Task> taskOptional = taskRepository.findById(taskId);
 
-    // method to add a new comment
-    //fixme: do the same as in user-task classes
-    public Comment addComment(Comment comment) {
-        if (comment instanceof IssueComment || comment instanceof UpdateComment) {
-            // Check if the task already has this comment
-            Task task = comment.getTask();
+        if (userOptional.isPresent() && taskOptional.isPresent()) {
+            User user = userOptional.get();
+            Task task = taskOptional.get();
 
-            if (task != null && task.getComments().contains(comment)) {
-                throw new IllegalArgumentException("The task already has this comment.");
+            if (comment instanceof IssueComment) {
+                ((IssueComment) comment).setIssueCommentId(new ObjectId().toString());
+                if (!task.getComments().contains(comment)) {
+                    task.getComments().add(comment);
+                }
+            } else if (comment instanceof UpdateComment) {
+                ((UpdateComment) comment).setUpdateCommentId(new ObjectId().toString());
+                if (!task.getComments().contains(comment)) {
+                    task.getComments().add(comment);
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid comment type");
             }
-            Comment savedComment = commentRepository.save(comment);
-            // Add the comment to the associated task
-            if (task != null) {
 
-                task.getComments().add(savedComment);
-                taskRepository.save(task);
+            if (!user.getComments().contains(comment)) {
+                user.getComments().add(comment);
             }
-            return savedComment;
+
+            taskRepository.save(task);
+            userRepository.save(user);
+            return commentRepository.save(comment);
         } else {
-            throw new IllegalArgumentException("Invalid comment type");
+            throw new IllegalArgumentException("User or task not found");
         }
     }
-
 
     // method to delete a comment by its ID
     public void deleteComment(String id) {
@@ -71,5 +77,14 @@ public class CommentService {
     // method to find comments by user
     public List<Comment> findCommentsByTaskId(String userId) {
         return commentRepository.findByTaskId(userId);
+    }
+
+    public Comment getCommentById(String id) {
+        Optional<Comment> commentOptional = commentRepository.findById(id);
+        if (commentOptional.isPresent()) {
+            return commentOptional.get();
+        } else {
+            throw new IllegalArgumentException("Comment not found");
+        }
     }
 }

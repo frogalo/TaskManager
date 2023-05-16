@@ -60,10 +60,10 @@ public class TaskService {
         }
         Set<Task> tasks = taskRepository.findByUsersId(userId);
         Set<User> users = userRepository.findByTasksId(taskId);
-        System.out.println(task);
-        System.out.println(tasks);
-        System.out.println(user);
-        System.out.println(users);
+//        System.out.println(task);
+//        System.out.println(tasks);
+//        System.out.println(user);
+//        System.out.println(users);
 
         if (tasks.stream().anyMatch(t -> t.getId().equals(taskId)) || users.stream().anyMatch(u -> u.getId().equals(userId))) {
             return "This user already has this task";

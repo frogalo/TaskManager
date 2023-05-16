@@ -30,15 +30,15 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @PostMapping("/issue")
-    public ResponseEntity<Comment> addIssueComment(@RequestBody IssueComment comment) {
-        Comment newComment = commentService.addComment(comment);
+    @PostMapping("/issue/task/{taskId}/user/{userId}")
+    public ResponseEntity<Comment> addIssueComment(@RequestBody IssueComment comment, @PathVariable String userId, @PathVariable String taskId) {
+        Comment newComment = commentService.addComment(comment, userId, taskId);
         return new ResponseEntity<>(newComment, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Comment> addUpdateComment(@RequestBody UpdateComment comment) {
-        Comment newComment = commentService.addComment(comment);
+    @PostMapping("/update/task/{taskId}/user/{userId}")
+    public ResponseEntity<Comment> addUpdateComment(@RequestBody IssueComment comment, @PathVariable String userId, @PathVariable String taskId) {
+        Comment newComment = commentService.addComment(comment, userId, taskId);
         return new ResponseEntity<>(newComment, HttpStatus.CREATED);
     }
 

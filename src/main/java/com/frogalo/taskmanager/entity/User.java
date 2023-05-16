@@ -6,10 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Document(collection = "users")
 public class User {
@@ -121,5 +118,8 @@ public class User {
         return sb.toString();
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
 }
 
