@@ -39,6 +39,22 @@ public class User {
 
     }
 
+    public User(String firstName, String lastName, String email, String role, List<Comment> commentList, Set<Task> taskSet) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+        this.tasks = taskSet;
+        this.comments = commentList;
+    }
+
+    public User(String firstName, String lastName, String email, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+    }
+
     public void addTask(Task task) {
         if (this.tasks == null) {
             this.tasks = new HashSet<>();

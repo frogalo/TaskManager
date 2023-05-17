@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Document(collection = "comments")
-public abstract class Comment {
+public class Comment {
     @Id
     private String id;
     private String content;
@@ -101,5 +101,7 @@ public abstract class Comment {
             throw new IllegalStateException("Cannot set UpdateCommentId when IssueCommentId is already set.");
         }
     }
+
+
 }
 
