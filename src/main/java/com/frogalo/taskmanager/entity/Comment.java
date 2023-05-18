@@ -30,8 +30,10 @@ public class Comment {
         this.createdAt = createdAt;
         this.user = user;
         this.task = task;
-        setIssueCommentId(issueCommentId);
-        setUpdateCommentId(updateCommentId);
+        if (issueCommentId != null)
+            setIssueCommentId(issueCommentId);
+        if (updateCommentId != null)
+            setUpdateCommentId(updateCommentId);
     }
 
     public Comment() {

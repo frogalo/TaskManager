@@ -32,7 +32,10 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.role = role;
-        this.tasks = tasks;
+        if (tasks != null)
+            this.tasks = tasks;
+        else
+            this.tasks = new HashSet<Task>();
     }
 
     public User() {

@@ -28,6 +28,10 @@ public class TaskManagerApplication {
         try (MongoClient mongoClient = MongoClients.create(String.valueOf(uri))) {
             MongoDatabase database = mongoClient.getDatabase("taskmanager");
             MongoCollection<BasicDBObject> taskCollection = database.getCollection("tasks", BasicDBObject.class);
+            MongoCollection<BasicDBObject> categoryCollection = database.getCollection("category", BasicDBObject.class);
+            MongoCollection<BasicDBObject> projectCollection = database.getCollection("project", BasicDBObject.class);
+            MongoCollection<BasicDBObject> userCollection = database.getCollection("user", BasicDBObject.class);
+            MongoCollection<BasicDBObject> commentCollection = database.getCollection("comment", BasicDBObject.class);
 
 // Create a Task object
             Task task = new Task();
@@ -62,13 +66,14 @@ public class TaskManagerApplication {
                     .append("description", category.getDescription());
 
             // Insert the document into the collection
-            InsertOneResult categoryInsertResult = taskCollection.insertOne(categoryDocument, insertOptions);
+            InsertOneResult categoryInsertResult = categoryCollection.insertOne(categoryDocument, insertOptions);
 
             // Get the generated ID of the inserted document
             String categoryId = categoryInsertResult.getInsertedId().toString();
             category.setId(categoryId);
 
             // Create an UpdateComment object
+
             User user = new User("John", "Doe", "john.doe@example.com", "user", null);
             UpdateComment updateComment = new UpdateComment("Update comment", new Date(), user, task, "updateCommentId", "In Progress", "Some update description");
 
@@ -83,7 +88,7 @@ public class TaskManagerApplication {
                     .append("updateDescription", updateComment.getUpdateDescription());
 
             // Insert the document into the collection
-            InsertOneResult updateCommentInsertResult = taskCollection.insertOne(updateCommentDocument, insertOptions);
+            InsertOneResult updateCommentInsertResult = commentCollection.insertOne(updateCommentDocument, insertOptions);
 
             // Get the generated ID of the inserted document
             String updateCommentId = updateCommentInsertResult.getInsertedId().toString();
@@ -103,7 +108,7 @@ public class TaskManagerApplication {
                     .append("tasks", createTaskDocuments(project.getTasks()));
 
             // Insert the document into the collection
-            InsertOneResult projectInsertResult = taskCollection.insertOne(projectDocument, insertOptions);
+            InsertOneResult projectInsertResult = projectCollection.insertOne(projectDocument, insertOptions);
 
             // Get the generated ID of the inserted document
             String projectId = projectInsertResult.getInsertedId().toString();
@@ -119,10 +124,10 @@ public class TaskManagerApplication {
                     .append("role", newUser.getRole());
 
 // Insert the document into the collection
-            InsertOneResult userInsertResult = taskCollection.insertOne(userDocument, insertOptions);
+            InsertOneResult userInsertResult = userCollection.insertOne(userDocument, insertOptions);
 
-            Comment comment1 = new Comment("Comment 1", new Date(), newUser, task, null, "1");
-            Comment comment2 = new Comment("Comment 2", new Date(), newUser, task, "1", null);
+            Comment comment1 = new IssueComment("Comment 1", new Date(), newUser, task, "1", "1","critical");
+            Comment comment2 = new UpdateComment("Comment 2", new Date(), newUser, task, "1", "pending","description");
 
 
 // Add comments to the comment list
@@ -148,7 +153,7 @@ public class TaskManagerApplication {
                     .append("tasks", createBasicDBList(newUser.getTasks()));
 
 // Insert the document into the collection
-            InsertOneResult userInsertResult2 = taskCollection.insertOne(userDocument2, insertOptions);
+            InsertOneResult userInsertResult2 = userCollection.insertOne(userDocument2, insertOptions);
 
 
             // Get the generated ID of the inserted document
@@ -175,9 +180,11 @@ public class TaskManagerApplication {
 
         // Convert the tasks to BasicDBList
         BasicDBList taskList = new BasicDBList();
+
         for (Task task : user.getTasks()) {
             taskList.add(createTaskDBObject(task));
         }
+
         userDocument.append("tasks", taskList);
 
         return userDocument;
