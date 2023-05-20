@@ -23,6 +23,10 @@ import java.util.*;
 public class TaskManagerApplication {
 
     public static void main(String[] args) {
+
+        SpringApplication.run(TaskManagerApplication.class, args);
+
+
         String connectionString = "mongodb://localhost:27017";
         MongoClientURI uri = new MongoClientURI(connectionString);
         try (MongoClient mongoClient = MongoClients.create(String.valueOf(uri))) {
@@ -126,8 +130,8 @@ public class TaskManagerApplication {
 // Insert the document into the collection
             InsertOneResult userInsertResult = userCollection.insertOne(userDocument, insertOptions);
 
-            Comment comment1 = new IssueComment("Comment 1", new Date(), newUser, task, "1", "1","critical");
-            Comment comment2 = new UpdateComment("Comment 2", new Date(), newUser, task, "1", "pending","description");
+            Comment comment1 = new IssueComment("Comment 1", new Date(), newUser, task, "1", "1", "critical");
+            Comment comment2 = new UpdateComment("Comment 2", new Date(), newUser, task, "1", "pending", "description");
 
 
 // Add comments to the comment list
