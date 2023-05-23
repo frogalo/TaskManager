@@ -1,9 +1,11 @@
 package com.frogalo.taskmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +17,9 @@ public class Project {
     private String description;
     private Date startDate;
     private Date endDate;
-    @DBRef
+
+
+    @OneToMany(mappedBy = "project")
     private List<Task> tasks;
 
     public Project(String name, String description, Date startDate, Date endDate, List<Task> tasks) {

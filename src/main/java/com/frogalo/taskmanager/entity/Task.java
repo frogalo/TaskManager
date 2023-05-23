@@ -1,6 +1,7 @@
 package com.frogalo.taskmanager.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +19,9 @@ public class Task {
     private Date startDate;
     private Date endDate;
     private String status;
-    @DBRef
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
     @DBRef
     @ManyToMany(fetch = FetchType.LAZY)
