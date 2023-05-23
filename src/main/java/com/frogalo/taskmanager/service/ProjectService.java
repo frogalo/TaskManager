@@ -20,6 +20,16 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
+    // metoda zwracająca pierwszy projekt o podanej nazwie
+    public Project getProjectByName(String name) {
+        List<Project> projects = projectRepository.findByName(name);
+        if (!projects.isEmpty()) {
+            return projects.get(0);
+        }
+        return null; // lub można rzucić odpowiedni wyjątek
+    }
+
+
     // metoda zwracająca projekt o podanym ID
     public Project getProjectById(String id) {
         return projectRepository.getById(id);

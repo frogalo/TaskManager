@@ -56,6 +56,18 @@ public class ProjectController {
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Project> getProjectByName(@PathVariable String name) {
+        Project project = projectService.getProjectByName(name);
+        if (project != null) {
+            return ResponseEntity.ok(project);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+
+
     // metoda dodająca nowy projekt
     @PostMapping
     public ResponseEntity<Project> addProject(@RequestBody Project project) {
