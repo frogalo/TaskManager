@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends MongoRepository<Project, String> {
@@ -27,5 +28,6 @@ public interface ProjectRepository extends MongoRepository<Project, String> {
 
     // usuń projekt po ID
     public void deleteById(String id);
+
 
 }

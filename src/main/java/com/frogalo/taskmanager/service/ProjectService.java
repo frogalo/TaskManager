@@ -1,18 +1,25 @@
 package com.frogalo.taskmanager.service;
 
 import com.frogalo.taskmanager.entity.Project;
+import com.frogalo.taskmanager.entity.Task;
 import com.frogalo.taskmanager.repository.ProjectRepository;
+import com.frogalo.taskmanager.repository.TaskRepository;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
 
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepository projectRepository, TaskRepository taskRepository) {
         this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
     }
 
     // metoda zwracająca wszystkie projekty
@@ -49,6 +56,21 @@ public class ProjectService {
     public Project updateProject(String id, Project project) {
         project.setId(id);
         return projectRepository.save(project);
+    }
+
+    public Task addTaskToProject(String projectId, Task task) {
+        Project project = projectRepository.findById(projectId).orElse(null);
+        if (project != null) {
+            if (project.getTasks() == null)
+                project.setTasks(new ArrayList<Task>());
+            project.getTasks().add(task);
+            projectRepository.save(project);
+            task.setId(String.valueOf(new ObjectId()));
+//            task.setProject(project);
+            return taskRepository.save(task);
+        } else {
+            throw new IllegalArgumentException("Project not found");
+        }
     }
 
 }

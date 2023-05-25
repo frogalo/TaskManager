@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Project {
 
 
     @OneToMany(mappedBy = "project")
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     public Project(String name, String description, Date startDate, Date endDate, List<Task> tasks) {
         this.name = name;

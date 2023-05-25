@@ -1,12 +1,12 @@
 package com.frogalo.taskmanager.controller;
 
 import com.frogalo.taskmanager.entity.Project;
+import com.frogalo.taskmanager.entity.Task;
 import com.frogalo.taskmanager.service.ProjectService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.config.Task;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,18 +21,6 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-//    @PostConstruct
-//    public void init() {
-//        Project project = new Project("Project 1", "Description 1", new Date(), new Date());
-//        projectService.addProject(project);
-//    }
-
-//    @GetMapping
-//    List<Project> getProjects(Model model) {
-//        List<Project> projects = projectService.getAllProjects();
-//        model.addAttribute("projects", projects);
-//        return projects;
-//    }
 
     // metoda zwracająca wszystkie projekty
     @GetMapping
@@ -41,13 +29,11 @@ public class ProjectController {
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-//    @GetMapping("index")
-//    public String getAllProjects(Model model) {
-//        List<Project> projects = projectService.getAllProjects();
-//        model.addAttribute("TEST", "TEST");
-//        model.addAttribute("projects", projects);
-//        return "projects";
-//    }
+    @PostMapping("/{projectId}/tasks")
+    public ResponseEntity<Task> addTaskToProject(@PathVariable String projectId, @RequestBody Task task) {
+        Task newTask = projectService.addTaskToProject(projectId, task);
+        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
+    }
 
     // metoda zwracająca projekt o podanym ID
     @GetMapping("/{id}")
