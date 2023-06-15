@@ -1,0 +1,94 @@
+{
+  "student": {
+    "name": "Jakub Urbański",
+    "sNumber": "s23525"
+  },
+  "project": {
+    "description": "Aplikacja ma na celu usprawnienie wszystkich procesów związanych z tworzeniem oprogramowania w firmie. Dzięki użyciu aplikacji będzie można w wygodny i przejrzysty sposób zobaczyć kto jest odpowiedzialny za jakie zadania oraz jakie są aktualne zadania i ich statusy w każdym projekcie.",
+    "languages": [
+      "Java",
+      "SpringBoot",
+      "React",
+	  "MongoDB"
+    ],
+    "projectPoints": [
+      "Ekstensja",
+      "Trwałość ekstensji",
+      "Atrybut złożony",
+      "Atrybut klasowy",
+      "Atrybut pochodny",
+      "Metoda klasowa",
+      "Metoda przeciążona lub przesłonięta",
+      "Asocjacja binarna",
+      "Ograniczenie atrybutu",
+      "Ograniczenie własne",
+      "Klasy modelu relacyjnego",
+      "Asocjacje modelu relacyjnego"
+    ],
+    "persistenceType": "Baza danych"
+  },
+  "scenario": {
+    "useCaseName": "Zobaczenie szczegółów zadania",
+    "initialCondition": "Użytkownik jest zalogowany",
+    "endCondition": "System wyświetla aktorowi poprawne dane zadań",
+    "actors": [
+      "Zalogowany użytkownik"
+    ],
+    "mainScenario": [
+      {
+        "pointNumber": "1",
+        "pointContent": "Aktor wywołuje przypadek użycia"
+      },
+      {
+        "pointNumber": "2",
+        "pointContent": "System wyświetla aktorowi listę jego projektów, aktor wybiera projekt"
+      },
+      {
+        "pointNumber": "3",
+        "pointContent": "System wyświetla listę zadań w projekcie, aktor wybiera zadanie"
+      },
+      {
+        "pointNumber": "4. ",
+        "pointContent": "System wyświetla zadanie wraz z jego szczegółami"
+      },
+      {
+        "pointNumber": "5.",
+        "pointContent": "Koniec przypadku użycia"
+      }
+    ],
+    "alternativeScenario": [
+      {
+        "pointNumber": "2.A",
+        "pointContent": "Aktor nie ma żadnego projektu, system wyświetla pustą listę"
+      },
+      {
+        "pointNumber": "2. A1",
+        "pointContent": "Aktor klika przycisk dodania nowego projektu"
+      },
+      {
+        "pointNumber": "2. A2",
+        "pointContent": "System wyświetla formularz nowego projektu, aktor wprowadza"
+      },
+      {
+        "pointNumber": "2. A3",
+        "pointContent": "System przechodzi do 2 punktu scenariusza"
+      },
+      {
+        "pointNumber": "3. A",
+        "pointContent": "System wyświetla listę zadań w projekcie, aktor chce dodać nowe zadanie"
+      },
+      {
+        "pointNumber": "3. A1",
+        "pointContent": "Aktor klika przycisk dodania nowego zadania"
+      },
+      {
+        "pointNumber": "3. A2",
+        "pointContent": "System wyświetla formularz dodania nowego zadania, aktor wprowadza"
+      },
+      {
+        "pointNumber": "3. A3",
+        "pointContent": "System przechodzi do 3 punktu scenariusza"
+      }
+    ]
+  }
+}

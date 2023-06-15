@@ -65,8 +65,7 @@ public class ProjectService {
                 project.setTasks(new ArrayList<Task>());
             project.getTasks().add(task);
             projectRepository.save(project);
-            task.setId(String.valueOf(new ObjectId()));
-//            task.setProject(project);
+            //            task.setProject(project);
             return taskRepository.save(task);
         } else {
             throw new IllegalArgumentException("Project not found");
