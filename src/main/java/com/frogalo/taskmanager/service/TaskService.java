@@ -2,11 +2,11 @@ package com.frogalo.taskmanager.service;
 
 import com.frogalo.taskmanager.entity.Task;
 import com.frogalo.taskmanager.entity.User;
+import com.frogalo.taskmanager.repository.ProjectRepository;
 import com.frogalo.taskmanager.repository.TaskRepository;
 import com.frogalo.taskmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

@@ -37,8 +37,9 @@ public class Task {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public Task(String name, String description, Date startDate, Date endDate, String status,
+    public Task(String id, String name, String description, Date startDate, Date endDate, String status,
                 Project project, Set<User> users, Category category, List<Comment> comments) {
+        this.id = id;
         this.name = name;
         setDescription(description);
         this.startDate = startDate;
