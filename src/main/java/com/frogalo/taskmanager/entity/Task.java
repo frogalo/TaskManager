@@ -16,6 +16,7 @@ public class Task {
     private String id;
     private String name;
     private String description;
+    //złożony
     private Date startDate;
     private Date endDate;
     private String status;
@@ -39,7 +40,7 @@ public class Task {
     public Task(String name, String description, Date startDate, Date endDate, String status,
                 Project project, Set<User> users, Category category, List<Comment> comments) {
         this.name = name;
-        this.description = description;
+        setDescription(description);
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
@@ -75,7 +76,12 @@ public class Task {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description.length() > 5)
+            this.description = description;
+        else {
+            System.out.println("description too small");
+            this.description = "descritpion field";
+        }
     }
 
     public Date getStartDate() {

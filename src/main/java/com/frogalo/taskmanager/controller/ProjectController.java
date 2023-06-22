@@ -42,6 +42,7 @@ public class ProjectController {
         return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
+    //metoda klasowa
     @GetMapping("/name/{name}")
     public ResponseEntity<Project> getProjectByName(@PathVariable String name) {
         Project project = projectService.getProjectByName(name);
@@ -51,7 +52,6 @@ public class ProjectController {
             return ResponseEntity.noContent().build();
         }
     }
-
 
 
     // metoda dodająca nowy projekt

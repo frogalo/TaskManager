@@ -43,7 +43,8 @@ public class ProjectService {
     }
 
     // metoda dodająca nowy projekt
-    public Project addProject(Project project) {
+    public Project
+    addProject(Project project) {
         return projectRepository.save(project);
     }
 
